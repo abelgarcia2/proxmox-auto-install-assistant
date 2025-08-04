@@ -34,7 +34,7 @@ download_iso() {
     proxmox_version=$(get_current_proxmox_version)
     iso_filename="proxmox-ve_$proxmox_version-1.iso"
 
-    curl -O "https://enterprise.proxmox.com/iso/SHA256SUMS"
+    curl -sO "https://enterprise.proxmox.com/iso/SHA256SUMS"
     curl -O "https://enterprise.proxmox.com/iso/$iso_filename"
 }
 
