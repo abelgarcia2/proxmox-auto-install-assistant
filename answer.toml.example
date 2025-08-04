@@ -1,0 +1,70 @@
+# Full documentation in https://pve.proxmox.com/wiki/Automated_Installation#Answer_File_Format_2
+
+[global]
+keyboard = "us" # Keyboard layour. (options: de de-ch dk en-gb en-us es fi fr fr-be fr-ca fr-ch hu is it jp lt mk nl no pl pt pt-br se si tr)
+country = "us" # ISO 3166-1 alpha-2 country code
+fqdn = "example.com" # Fully-qualified domain name of the host 
+mailto = "example@example.com" # Default root email address
+timezone = "UTC" # Timezone in tzdata format
+root-password = "example1234" # Password for the root user
+#root-password-hashed = "$y$j9T$Uvtgu5/.JF8qTrT6nwcPA0$k6TCJU2KXy3Lm5ptQw6LVW97fUL0pIDZddc8uUN2m/2" # Root password hashed with mkpasswd (replaces root-password)
+
+# Optional keys
+#root-ssh-keys = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIDFxGe58liX2JyTJdDpkKWN5hThLBstY06CRcBqcbnd" # Root SSH authorized_keys
+#reboot-on-error = "true" # Reboot when an error is encountered (options: true, false) (default: false)
+#reboot-mode = "power-off" # Reboot or poweroff after successful installation (options: reboot, power-off) (default: reboot)
+
+[network]
+source = "from-dhcp" # Where get network configuration (option: from-dhcp, from-answer)
+
+# Below keys are only needed if source = "from-answer"
+#cidr = "192.168.1.100/24" # Static IP address in CIDR notation
+#dns = "9.9.9.9" # IP address of the DNS server
+#gateway = "192.168.1.1" # IP address of the default gateway
+#filter = "" # Filter network card by UDEV properties. See https://pve.proxmox.com/wiki/Automated_Installation#Filters
+
+[disk-setup]
+filesystem = "ext4" # (options: ext4, xfs, zfs, btrfs)
+disk-list = ["sda", "sdb"] # List of disks to use
+#filter =  "" # Filter disks by UDEV properties. See https://pve.proxmox.com/wiki/Automated_Installation#Filters (replaces disk-list)
+#filter-match = "any" # Decides if a match of any filter is enough or if all filters need to match. Only useful using in combination with filter option (options: any, all) (default: any)
+
+# ZFS-specific properties (For more info, see https://pve.proxmox.com/pve-docs/chapter-pve-installation.html#advanced_zfs_options)
+# Only useful when filesystem = "zfs"
+#zfs.raid = "raid0" # RAID level that should be used (options: raid0, raid1, raid10, raidz-1, raidz-2, raidz-3)
+# Optional ZFS properties
+#zfs.ashift = 12 # ashift property of the created zpool.
+#zfs.arc-max = 4096 # Max amount of memory for ZFS ARC. In MiB (See https://pve.proxmox.com/pve-docs/pve-admin-guide.html#sysadmin_zfs_limit_memory_usage)
+#zfs.checksum = "on" # Checksumming algorithm (options: on, fletcher4, sha256) (default: on)
+#zfs.compress = "on" # Set if compression is enabled and its algorithm. (options: on, off, lzjb, lz4, zle, gzip, zstd) (default: on)
+#zfs.copies = 2 # set copies property of the created zpool (See https://openzfs.github.io/openzfs-docs/man/master/7/zfsprops.7.html#copies)
+#zfs.hdsize = 100 # Total hard disk size to be used. In GB
+
+# LVM-specific properties (For more info, see https://pve.proxmox.com/pve-docs/chapter-pve-installation.html#advanced_lvm_options)
+# Only useful when filesystem = "ext4" or filesystem = "xfs"
+#lvm.hdsize = 100 # Total hard disk size to be used. In GB
+#lvm.swapsize = 4 # Size of swap volume. In GB (default: the size of installed memory)
+#lvm.maxroot = 50 # Max size of root volume. In GB. Max is hdsize / 4
+#lvm.maxvz = 30 # Max size of data volume. In GB
+#lvm.minfree = 20 # Amount of free space that should be left in the LVM VG. In GB
+
+# BTRFS-specific properties
+# Only useful when filesystem = "btrfs"
+#btrfs.raid = "raid0" # RAID level that should be used (options: raid0, raid1, raid10)
+# Optional BTRFS properties
+#btrfs.hdsize = "100" # Total hard disk size to be used. In GB
+#btrfs.compress = "off" # Compression type to use (options: on, off, zlib, lzo, zstd) (default: off)
+
+#[post-installation-webhook]
+# Optional section to configure a webhook to be called after a successful installation.
+#url = "http://api.example.com/installation-finished" # URL to send HTTP POST request
+# Optional key
+#cert-fingerprint = "A1:B2:C3:D4:E5:F6:07:08:09:0A:0B:0C:0D:0E:0F:10:11:12:13:14:15:16:17:18:19:1A:1B:1C:1D:1E:1F" # SHA256 certificate fingerprint 
+
+#[first-boot]
+# Optional section to configure a shell script or binary to run after successful installation.
+#source = "from-iso" # Where to source the executable for running at first boot from. (options:  from-iso, from-url)
+#url = "" # Required when source = "from-url" The URL of the executable file to download.
+# Optional keys
+#ordering = "fully-up" # At what stage of the boot to run the hook. (options: before-network, network-online, fully-up) (default: fully-up)
+#cert-fingerprint = "A1:B2:C3:D4:E5:F6:07:08:09:0A:0B:0C:0D:0E:0F:10:11:12:13:14:15:16:17:18:19:1A:1B:1C:1D:1E:1F" # SHA256 certificate fingerprint 
