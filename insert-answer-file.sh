@@ -51,8 +51,6 @@ verify_iso() {
         exit 1
     fi
 
-    gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys 24B30F06ECC1836A4E5EFECBA7BCD1420BFE778E
-
     rm SHA256SUMS
 }
 
